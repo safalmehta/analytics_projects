@@ -1,0 +1,3 @@
+"0","library(C50)"
+"0","crime_boost<-C5.0(train[-1],train$Category,trials = 10)"
+"0","#summary(crime_boost)"

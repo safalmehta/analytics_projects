@@ -1,0 +1,36 @@
+"0","library(C50)"
+"2","package ‘C50’ was built under R version 3.4.4"
+"0","crime_model<-C5.0(train[-1],train$Category)"
+"0","crime_model"
+"1","
+Call:
+"
+"1","C5.0.default(x = train[-1], y = train$Category)"
+"1","
+
+"
+"1","Classification Tree
+"
+"1","Number of samples:"
+"1"," "
+"1","23950"
+"1"," "
+"1","
+Number of predictors:"
+"1"," "
+"1","2"
+"1"," "
+"1","
+
+"
+"1","Tree size:"
+"1"," "
+"1","267"
+"1"," "
+"1","
+
+"
+"1","Non-standard options: attempt to group attributes"
+"1","
+
+"

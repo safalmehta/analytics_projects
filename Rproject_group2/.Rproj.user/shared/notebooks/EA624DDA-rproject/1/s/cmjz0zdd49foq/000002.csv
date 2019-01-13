@@ -1,0 +1,3 @@
+"0","# Get train and test labels from the dataset"
+"0","train_labels <- mydata_hf_knn[trainIndex, 1]"
+"0","test_labels <- mydata_hf_knn[-trainIndex, 1]"

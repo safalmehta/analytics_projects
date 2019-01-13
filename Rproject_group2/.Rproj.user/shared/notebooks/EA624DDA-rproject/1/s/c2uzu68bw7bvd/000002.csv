@@ -1,0 +1,4 @@
+"0","# KNN function is from ""class"" library"
+"0","# Implement KNN using knn funtion"
+"0","library(""class"")"
+"0","mydata_test_pred <- knn(train = train_knn, test = test_knn, cl = train_labels, k = 21)"

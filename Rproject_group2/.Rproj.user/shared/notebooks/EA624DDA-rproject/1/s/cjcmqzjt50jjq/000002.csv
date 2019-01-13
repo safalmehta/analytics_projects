@@ -1,0 +1,2 @@
+"0","train_knn <- data.frame(x_train_scaled,y_train_scaled)"
+"0","test_knn <- data.frame(x_test_scaled,y_test_scaled)"

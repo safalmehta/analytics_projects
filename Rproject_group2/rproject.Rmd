@@ -1,0 +1,704 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+train_filtered <- read.csv("C:/School/BAN 671 - R/sf crime data/train_filtered.csv")
+View(train_filtered)
+train_filtered$Category_coded <- NA
+train_filtered$DayOfWeek_coded <- NA
+train_filtered$PdDistrict_coded <- NA
+train_filtered$Resolution_coded <- NA
+train_filtered$Month_coded <- NA
+train_filtered$Season_coded <- NA
+
+
+
+#use for training csv
+avector=as.vector(train_filtered$Dates)
+month=months(as.Date(avector,format='%m/%d/%Y'))
+train_filtered$Month = month
+
+
+train_filtered$Month_coded[train_filtered$Month=='January'] <- 1
+train_filtered$Month_coded[train_filtered$Month=='February'] <- 2
+train_filtered$Month_coded[train_filtered$Month=='March'] <- 3
+train_filtered$Month_coded[train_filtered$Month=='April'] <- 4
+train_filtered$Month_coded[train_filtered$Month=='May'] <- 5
+train_filtered$Month_coded[train_filtered$Month=='June'] <- 6
+train_filtered$Month_coded[train_filtered$Month=='July'] <- 7
+train_filtered$Month_coded[train_filtered$Month=='August'] <- 8
+train_filtered$Month_coded[train_filtered$Month=='September'] <- 9
+train_filtered$Month_coded[train_filtered$Month=='October'] <- 10
+train_filtered$Month_coded[train_filtered$Month=='November'] <- 11
+train_filtered$Month_coded[train_filtered$Month=='December'] <- 12
+
+train_filtered$Season[train_filtered$Month=='January'] <- 'Winter'
+train_filtered$Season[train_filtered$Month=='February'] <- 'Winter'
+train_filtered$Season[train_filtered$Month=='March'] <- 'Spring'
+train_filtered$Season[train_filtered$Month=='April'] <- 'Spring'
+train_filtered$Season[train_filtered$Month=='May'] <- 'Spring'
+train_filtered$Season[train_filtered$Month=='June'] <- 'Summer'
+train_filtered$Season[train_filtered$Month=='July'] <- 'Summer'
+train_filtered$Season[train_filtered$Month=='August'] <- 'Summer'
+train_filtered$Season[train_filtered$Month=='September'] <- 'Fall'
+train_filtered$Season[train_filtered$Month=='October'] <- 'Fall'
+train_filtered$Season[train_filtered$Month=='November'] <- 'Fall'
+train_filtered$Season[train_filtered$Month=='December'] <- 'Winter'
+
+train_filtered$Season_coded[train_filtered$Season=='Winter'] <- 1
+train_filtered$Season_coded[train_filtered$Season=='Spring'] <- 2
+train_filtered$Season_coded[train_filtered$Season=='Summer'] <- 3
+train_filtered$Season_coded[train_filtered$Season=='Fall'] <- 4
+
+train_filtered$Category_coded[train_filtered$Category=='ARSON'] <- 1
+train_filtered$Category_coded[train_filtered$Category=='ASSAULT'] <- 2
+train_filtered$Category_coded[train_filtered$Category=='BAD CHECKS'] <- 3
+train_filtered$Category_coded[train_filtered$Category=='BRIBERY'] <- 4
+train_filtered$Category_coded[train_filtered$Category=='BURGLARY'] <- 5
+train_filtered$Category_coded[train_filtered$Category=='DISORDERLY CONDUCT'] <- 6
+train_filtered$Category_coded[train_filtered$Category=='DRIVING UNDER THE INFLUENCE'] <- 7
+train_filtered$Category_coded[train_filtered$Category=='DRUG/NARCOTIC'] <- 8
+train_filtered$Category_coded[train_filtered$Category=='DRUNKENNESS'] <- 9
+train_filtered$Category_coded[train_filtered$Category=='EMBEZZLEMENT'] <- 10
+train_filtered$Category_coded[train_filtered$Category=='EXTORTION'] <- 11
+train_filtered$Category_coded[train_filtered$Category=='FAMILY OFFENSES'] <- 12
+train_filtered$Category_coded[train_filtered$Category=='FORGERY/COUNTERFEITING'] <- 13
+train_filtered$Category_coded[train_filtered$Category=='FRAUD'] <- 14
+train_filtered$Category_coded[train_filtered$Category=='GAMBLING'] <- 15
+train_filtered$Category_coded[train_filtered$Category=='KIDNAPPING'] <- 16
+train_filtered$Category_coded[train_filtered$Category=='LARCENY/THEFT'] <- 17
+train_filtered$Category_coded[train_filtered$Category=='LIQUOR LAWS'] <- 18
+train_filtered$Category_coded[train_filtered$Category=='LOITERING'] <- 19
+train_filtered$Category_coded[train_filtered$Category=='MISSING PERSON'] <- 20
+train_filtered$Category_coded[train_filtered$Category=='NON-CRIMINAL'] <- 21
+train_filtered$Category_coded[train_filtered$Category=='OTHER OFFENSES'] <- 22
+train_filtered$Category_coded[train_filtered$Category=='PORNOGRAPHY/OBSCENE MAT'] <- 23
+train_filtered$Category_coded[train_filtered$Category=='PROSTITUTION'] <- 24
+train_filtered$Category_coded[train_filtered$Category=='RECOVERED VEHICLE'] <- 25
+train_filtered$Category_coded[train_filtered$Category=='ROBBERY'] <- 26
+train_filtered$Category_coded[train_filtered$Category=='RUNAWAY'] <- 27
+train_filtered$Category_coded[train_filtered$Category=='SECONDARY CODES'] <- 28
+train_filtered$Category_coded[train_filtered$Category=='SEX OFFENSES FORCIBLE'] <- 29
+train_filtered$Category_coded[train_filtered$Category=='SEX OFFENSES NON FORCIBLE'] <- 30
+train_filtered$Category_coded[train_filtered$Category=='STOLEN PROPERTY'] <- 31
+train_filtered$Category_coded[train_filtered$Category=='SUICIDE'] <- 32
+train_filtered$Category_coded[train_filtered$Category=='SUSPICIOUS OCC'] <- 33
+train_filtered$Category_coded[train_filtered$Category=='TREA'] <- 34
+train_filtered$Category_coded[train_filtered$Category=='TRESPASS'] <- 35
+train_filtered$Category_coded[train_filtered$Category=='VANDALISM'] <- 36
+train_filtered$Category_coded[train_filtered$Category=='VEHICLE THEFT'] <- 37
+train_filtered$Category_coded[train_filtered$Category=='WARRANTS'] <- 38
+train_filtered$Category_coded[train_filtered$Category=='WEAPON LAWS'] <- 39
+
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='BAYVIEW'] <- 1
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='CENTRAL'] <- 2
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='INGLESIDE'] <- 3
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='MISSION'] <- 4
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='NORTHERN'] <- 5
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='PARK'] <- 6
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='RICHMOND'] <- 7
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='SOUTHERN'] <- 8
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='TARAVAL'] <- 9
+train_filtered$PdDistrict_coded[train_filtered$PdDistrict=='TENDERLOIN'] <- 10
+
+train_filtered$Resolution_coded[train_filtered$Resolution=='ARREST, BOOKED'] <- 1
+train_filtered$Resolution_coded[train_filtered$Resolution=='ARREST, CITED'] <- 2
+train_filtered$Resolution_coded[train_filtered$Resolution=='CLEARED-CONTACT JUVENILE FOR MORE INFO'] <- 3
+train_filtered$Resolution_coded[train_filtered$Resolution=='COMPLAINANT REFUSES TO PROSECUTE'] <- 4
+train_filtered$Resolution_coded[train_filtered$Resolution=='DISTRICT ATTORNEY REFUSES TO PROSECUTE'] <- 5
+train_filtered$Resolution_coded[train_filtered$Resolution=='EXCEPTIONAL CLEARANCE'] <- 6
+train_filtered$Resolution_coded[train_filtered$Resolution=='JUVENILE ADMONISHED'] <- 7
+train_filtered$Resolution_coded[train_filtered$Resolution=='JUVENILE BOOKED'] <- 8
+train_filtered$Resolution_coded[train_filtered$Resolution=='JUVENILE CITED'] <- 9
+train_filtered$Resolution_coded[train_filtered$Resolution=='JUVENILE DIVERTED'] <- 10
+train_filtered$Resolution_coded[train_filtered$Resolution=='LOCATED'] <- 11
+train_filtered$Resolution_coded[train_filtered$Resolution=='NONE'] <- 12
+train_filtered$Resolution_coded[train_filtered$Resolution=='NOT PROSECUTED'] <- 13
+train_filtered$Resolution_coded[train_filtered$Resolution=='PROSECUTED BY OUTSIDE AGENCY'] <- 14
+train_filtered$Resolution_coded[train_filtered$Resolution=='PROSECUTED FOR LESSER OFFENSE'] <- 15
+train_filtered$Resolution_coded[train_filtered$Resolution=='PSYCHOPATHIC CASE'] <- 16
+train_filtered$Resolution_coded[train_filtered$Resolution=='UNFOUNDED'] <- 17
+
+train_filtered$DayOfWeek_coded[train_filtered$DayOfWeek=='Sunday'] <- 1
+train_filtered$DayOfWeek_coded[train_filtered$DayOfWeek=='Monday'] <- 2
+train_filtered$DayOfWeek_coded[train_filtered$DayOfWeek=='Tuesday'] <- 3
+train_filtered$DayOfWeek_coded[train_filtered$DayOfWeek=='Wednesday'] <- 4
+train_filtered$DayOfWeek_coded[train_filtered$DayOfWeek=='Thursday'] <- 5
+train_filtered$DayOfWeek_coded[train_filtered$DayOfWeek=='Friday'] <- 6
+train_filtered$DayOfWeek_coded[train_filtered$DayOfWeek=='Saturday'] <- 7
+
+train_filtered$Crime_Type[train_filtered$Category=='ARSON'] <- 'Violent'
+train_filtered$Crime_Type[train_filtered$Category=='ASSAULT'] <- 'Violent'
+train_filtered$Crime_Type[train_filtered$Category=='BAD CHECKS'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='BRIBERY'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='BURGLARY'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='DISORDERLY CONDUCT'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='DRIVING UNDER THE INFLUENCE'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='DRUG/NARCOTIC'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='DRUNKENNESS'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='EMBEZZLEMENT'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='EXTORTION'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='FAMILY OFFENSES'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='FORGERY/COUNTERFEITING'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='FRAUD'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='GAMBLING'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='KIDNAPPING'] <- 'Violent'
+train_filtered$Crime_Type[train_filtered$Category=='LARCENY/THEFT'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='LIQUOR LAWS'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='LOITERING'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='MISSING PERSON'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='NON-CRIMINAL'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='OTHER OFFENSES'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='PORNOGRAPHY/OBSCENE MAT'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='PROSTITUTION'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='RECOVERED VEHICLE'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='ROBBERY'] <- 'Violent'
+train_filtered$Crime_Type[train_filtered$Category=='RUNAWAY'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='SECONDARY CODES'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='SEX OFFENSES FORCIBLE'] <- 'Violent'
+train_filtered$Crime_Type[train_filtered$Category=='SEX OFFENSES NON FORCIBLE'] <- 'Violent'
+train_filtered$Crime_Type[train_filtered$Category=='STOLEN PROPERTY'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='SUICIDE'] <- 'Violent'
+train_filtered$Crime_Type[train_filtered$Category=='SUSPICIOUS OCC'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='TREA'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='TRESPASS'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='VANDALISM'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='VEHICLE THEFT'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='WARRANTS'] <- 'Non-Violent'
+train_filtered$Crime_Type[train_filtered$Category=='WEAPON LAWS'] <- 'Non-Violent'
+
+#this is the Prediction variable Y
+train_filtered$Crime_Type_Coded[train_filtered$Crime_Type=='Non-Violent'] <- 2
+train_filtered$Crime_Type_Coded[train_filtered$Crime_Type=='Violent'] <- 1
+
+#the below code will flag a row with a number substring location, else -1 if not found, or a list if multiple found
+
+train_filtered$Street = gregexpr('ST',train_filtered$Address)
+train_filtered$Avenue = gregexpr('AV',train_filtered$Address)
+train_filtered$Way = gregexpr('AY',train_filtered$Address)
+train_filtered$BLVD = gregexpr('BL',train_filtered$Address)
+train_filtered$Court = gregexpr('CT',train_filtered$Address)
+train_filtered$Trail = gregexpr('TR',train_filtered$Address)
+train_filtered$HWY = gregexpr('HY',train_filtered$Address)
+train_filtered$Road = gregexpr('RD',train_filtered$Address)
+train_filtered$Plaza = gregexpr('PZ',train_filtered$Address)
+train_filtered$Place = gregexpr('PL',train_filtered$Address)
+train_filtered$Lane = gregexpr('LN',train_filtered$Address)
+train_filtered$Way = gregexpr('WY',train_filtered$Address)
+train_filtered$Alley = gregexpr('AL',train_filtered$Address)
+train_filtered$Trail = gregexpr('TR',train_filtered$Address)
+train_filtered$Circle = gregexpr('CR',train_filtered$Address)
+train_filtered$Avenue = gregexpr('MS',train_filtered$Address)
+train_filtered$Walk = gregexpr('WK',train_filtered$Address)
+train_filtered$Exprwy = gregexpr('EX',train_filtered$Address)
+train_filtered$Row = gregexpr('RW',train_filtered$Address)
+train_filtered$Park = gregexpr('RK',train_filtered$Address)
+
+#if there are multiple findings in the above code it puts it as a list in the cell
+
+train_filtered$TwoStreets = gregexpr('c',train_filtered$Street)
+train_filtered$TwoWays = gregexpr('c',train_filtered$Way)
+train_filtered$TwoRoads = gregexpr('c',train_filtered$Road)
+train_filtered$TwoHWYs = gregexpr('c',train_filtered$HWY)
+train_filtered$TwoBLVDs = gregexpr('c',train_filtered$BLVD)
+train_filtered$TwoPlaces = gregexpr('c',train_filtered$Place)
+train_filtered$TwoAlleys = gregexpr('c',train_filtered$Alley)
+train_filtered$TwoTrails = gregexpr('c',train_filtered$Trail)
+train_filtered$TwoPlazas = gregexpr('c',train_filtered$Plaza)
+train_filtered$TwoWalks = gregexpr('c',train_filtered$Walk)
+train_filtered$TwoExprwys = gregexpr('c',train_filtered$Exprwy)
+train_filtered$TwoRows = gregexpr('c',train_filtered$Row)
+train_filtered$TwoParks = gregexpr('c',train_filtered$Park)
+train_filtered$TwoCircles = gregexpr('c',train_filtered$Circle)
+train_filtered$TwoTrails = gregexpr('c',train_filtered$Trail)
+train_filtered$TwoCourts = gregexpr('c',train_filtered$Court)
+train_filtered$TwoAlleys = gregexpr('c',train_filtered$Alley)
+train_filtered$TwoLanes = gregexpr('c',train_filtered$Lane)
+
+#the above code flags all those values that are lists, ie multiple of eachtype 1 if list found -1 if no list
+
+
+#the below code, is a try to make the variables numeric, but because there are lists, it fails
+
+train_filtered$Street=as.numeric(unlist(train_filtered$Street))
+train_filtered$Avenue=as.numeric(unlist(train_filtered$Avenue))
+train_filtered$Way=as.numeric(unlist(train_filtered$Way))
+train_filtered$BLVD=as.numeric(unlist(train_filtered$BLVD))
+train_filtered$Court=as.numeric(unlist(train_filtered$Court))
+train_filtered$Trail=as.numeric(unlist(train_filtered$Trail))
+train_filtered$HWY=as.numeric(unlist(train_filtered$HWY))
+train_filtered$Road=as.numeric(unlist(train_filtered$Road))
+train_filtered$Plaza=as.numeric(unlist(train_filtered$Plaza))
+train_filtered$Place=as.numeric(unlist(train_filtered$Place))
+train_filtered$Lane=as.numeric(unlist(train_filtered$Lane))
+train_filtered$Alley=as.numeric(unlist(train_filtered$Alley))
+train_filtered$Circle=as.numeric(unlist(train_filtered$Circle))
+train_filtered$Walk=as.numeric(unlist(train_filtered$Walk))
+train_filtered$Exprwy=as.numeric(unlist(train_filtered$Exprwy))
+train_filtered$Row=as.numeric(unlist(train_filtered$Row))
+train_filtered$Park=as.numeric(unlist(train_filtered$Park))
+
+#if the above code had worked, the below code would be to map the  values to a number into one variable
+train_filtered$location[train_filtered$Street>0] <- 1
+train_filtered$location[train_filtered$Avenue>0] <- 2
+train_filtered$location[train_filtered$Way>0] <- 3
+train_filtered$location[train_filtered$BLVD>0] <- 4
+train_filtered$location[train_filtered$Court>0] <- 5
+train_filtered$location[train_filtered$Trail>0] <- 6
+train_filtered$location[train_filtered$HWY>0] <- 7
+train_filtered$location[train_filtered$Road>0] <- 8
+train_filtered$location[train_filtered$Plaza>0] <- 9
+train_filtered$location[train_filtered$Place>0] <- 10
+train_filtered$location[train_filtered$Lane>0] <- 11
+train_filtered$location[train_filtered$Alley>0] <- 12
+train_filtered$location[train_filtered$Circle>0] <- 13
+train_filtered$location[train_filtered$Walk>0] <- 14
+train_filtered$location[train_filtered$Exprwy>0] <- 15
+train_filtered$location[train_filtered$Row>0] <- 16
+train_filtered$location[train_filtered$Park>0] <- 17
+
+
+
+View(train_filtered)
+write.csv(train_filtered, 'C:/School/BAN 671 - R/sf crime data/training_altered.csv')
+
+```
+
+
+```{r}
+#install.packages("FedData")
+#install.packages("ggthemes")
+#install.packages("xts")
+#install.packages("highcharter")
+#install.packages("ggmap")
+```
+
+```{r}
+library(FedData)
+library(ggplot2)
+#library(plyr)
+library(dplyr)
+library(readr)
+library(lubridate)
+library(ggthemes)
+library(RColorBrewer)
+library(xts)
+library(highcharter)
+
+```
+
+```{r}
+# Begin by importing the CSV data files, saving the train file as train and test files as test data frames respectively.
+
+train <- read.csv("train.csv",stringsAsFactors = FALSE)
+test <- read.csv("test.csv" , stringsAsFactors = FALSE)
+```
+
+```{r}
+#1. Datetime, Date and time
+
+train$datetime <- as.POSIXct(train$Dates,format = "%Y-%m-%d %H:%M:%S")
+str(train$datetime)
+
+#Only Date
+train$date <- as.Date(train$datetime)
+str(train$date)
+
+#Only time
+train$time <- substr(train$datetime,12,19)
+str(train$time)
+
+#Only month
+
+train$month_yr <- paste(substr(months(as.Date(train$datetime)),1,3),substr(year(as.Date(train$datetime)),3,4),sep = "-")
+train$month_yr<-as.factor(train$month_yr)
+str(train$month_yr)
+
+#Only year
+
+train$year <-year(train$date)
+str(train$year)
+train$year <-as.factor(train$year)
+str(train$year)
+
+```
+
+
+```{r}
+#2. Category,descript,Dayof week,pdDistrict,Resolution into factors
+
+train$Category <- as.factor(train$Category)
+train$DayOfWeek <- as.factor(train$DayOfWeek)
+train$PdDistrict <- as.factor(train$PdDistrict)
+train$Resolution <- as.factor(train$Resolution)
+
+```
+
+```{r}
+#3. Rename Descript as subcategory
+
+train$subcategory <- train$Descript
+```
+
+```{r}
+#4. divide address into st/ave/ct/cir
+
+train$Address[train$Address == "TEHAMA ST /"] <- "TEHAMA ST"
+train$Address[train$Address == "CLEMENTINA ST /"] <- "CLEMENTINA ST"
+train$Address[train$Address == "GENEVA AV /"]<- "GENEVA AV"
+train$Address[train$Address == "200 Block of I-80"]<- "200 Block of I-80 BL"
+train$Address[train$Address == "OCEAN AV / I-280"]<- "OCEAN AV"
+train$Address[train$Address == "500 Block of I-80"]<- "500 Block of I-80 BL"
+train$Address[train$Address == "MARIPOSA ST / I-280"]<- "MARIPOSA ST"
+
+train$address_type <- substr_right(train$Address,2)
+train$address_type <- as.factor(train$address_type)
+levels(train$address_type)
+```
+
+```{r}
+train<-train[-c(1,3)]
+```
+
+```{r}
+train_n <- train[ which(train$year== c('2013','2014','2015')), ]
+```
+
+```{r}
+class(train_n$subcategory)
+train_n$subcategory <-as.character(train_n$subcategory)
+class(train_n$subcategory)
+```
+```{r}
+train_n <- train_n[,c(8,9,10,11,12,1,13,2,3,4,5,14,6,7)]
+```
+
+```{r}
+View(train_n)
+```
+
+
+```{r}
+#2. Which year/month/day/time has the highest reported crimes?
+# calculate frequencies
+ my <- table(train_n$month_yr)
+# sort
+my_s <- sort(my)
+# extract 10 most frequent nationalities
+top10 <- tail(names(my_s), 10)
+# subset of data frame
+d_s <- subset(train_n, month_yr %in% top10)
+# order factor levels
+d_s$month_yr <- factor(d_s$month_yr, levels = rev(top10))
+#View(d_s)
+
+# plot
+d_s %>%
+  group_by(month_yr) %>%
+  count() %>%
+  ggplot(aes(reorder(month_yr, n), y = n, fill = n)) +   
+  geom_bar(stat = "identity", position = "dodge")+
+  xlab("Crime") +
+  ylab("Frequency") +
+  #coord_flip() +
+  theme_fivethirtyeight() + 
+  theme(legend.position ='none', axis.text.y = element_text(size = 12),axis.text.x = element_text(size = 14)) + 
+  geom_text(aes(label = n),size = 5.5) +
+  scale_fill_gradientn(name = '',colours = rev(brewer.pal(9,'Set1'))) +
+  ggtitle("Top 10 Months that have high crime rates_SF(2013-2015)")
+```
+
+
+```{r}
+#2. Which year/month/day/time has the highest reported crimes?
+train_n %>%
+  group_by(DayOfWeek) %>%
+  count() %>%
+  ggplot(aes(reorder(DayOfWeek, n), y = n, fill = n)) +   
+  geom_bar(stat = "identity", position = "dodge")+
+  xlab("Crime") +
+  ylab("Frequency") +
+  #coord_flip() +
+  theme_fivethirtyeight() + 
+  theme(legend.position ='none', axis.text.y = element_text(size = 12),axis.text.x = element_text(size = 14)) + 
+  geom_text(aes(label = n),size = 5.5) +
+  scale_fill_gradientn(name = '',colours = rev(brewer.pal(9,'Set1'))) +
+  ggtitle("Crime rate in SanFrancisco by Day of Week(2013-2015)")
+```
+
+```{r}
+#Most Dangerous locations 
+# calculate frequencies
+ my <- table(train_n$Address)
+# sort
+my_s <- sort(my)
+# extract 10 most frequent nationalities
+top10 <- tail(names(my_s), 10)
+# subset of data frame
+d_s <- subset(train, Address %in% top10)
+# order factor levels
+d_s$Address <- factor(d_s$Address, levels = rev(top10))
+#View(d_s)
+
+# plot
+d_s %>%
+  group_by(Address) %>%
+  count() %>%
+  ggplot(aes(reorder(Address, n), y = n, fill = n)) +   
+  geom_bar(stat = "identity", position = "dodge")+
+  xlab("Crime") +
+  ylab("Frequency") +
+  coord_flip() +
+  theme_fivethirtyeight() + 
+  theme(legend.position ='none', axis.text.y = element_text(size = 12)) + 
+  geom_text(aes(label = n),size = 4.5) +
+  scale_fill_gradientn(name = '',colours = rev(brewer.pal(9,'Set1'))) +
+  ggtitle("Top 10 locations based on high Crime rates_SanFrancisco(2013-2015)")
+```
+
+4. Resolution How many cases were resolved? How many were not?
+
+```{r}
+train_n %>%
+  group_by(Resolution) %>%
+  count() %>%
+  ggplot(aes(reorder(Resolution, n), y = n, fill = n)) +   
+  geom_bar(stat = "identity", position = "dodge")+
+  xlab("Crime") +
+  ylab("Frequency") +
+  coord_flip() +
+  theme_fivethirtyeight() + 
+  theme(legend.position ='none', axis.text.y = element_text(size = 12)) + 
+  geom_text(aes(label = n),hjust = 0.1,size = 3.5) +
+  scale_fill_gradientn(name = '',colours = rev(brewer.pal(9,'Set1'))) +
+  ggtitle("Resolved Vs Non resolved cases_SanFrancisco (2013-2015)")
+```
+
+
+### Decision Tree
+#Step1: Collecting Data: Data is collected and uploaded to mydata dataframe.
+###Calculating the accuarcy of model on crime category which has the highest frequency.
+
+
+```{r}
+
+mydata <- read.csv("jan2012-April2015.csv")
+#mydata
+str(mydata$Category)
+```
+#Exploring the data and category column.
+```{r}
+unique(mydata$Category)
+```
+
+#Frequency of all the categories in the dataset
+```{r}
+table(mydata$Category)
+```
+
+
+```{r}
+mydata_hf <- mydata[(mydata$Category == "BURGLARY" | mydata$Category == "ASSAULT" | mydata$Category =='VANDALISM'),] #mydata$Category =='LARCENY/THEFT',]# 
+mydata_hf_knn <- data.frame(mydata_hf$Category,mydata_hf$X,mydata_hf$Y)
+colnames(mydata_hf_knn) <- c("Category","X","Y")
+colnames(mydata_hf_knn)
+#mydata_hf_knn
+
+
+```
+
+
+#Divide the dataset into train and test data.
+```{r}
+set.seed(100) 
+n = nrow(mydata_hf_knn)
+trainIndex = sample(1:n, size = round(0.80*n), replace=FALSE)
+train = mydata_hf_knn[trainIndex ,]
+test = mydata_hf_knn[-trainIndex ,]
+```
+
+#used library C5.0 for decision tree from package 'C5.0'
+```{r}
+
+library(C50)
+crime_model<-C5.0(train[-1],train$Category)
+crime_model
+
+```
+
+##library gmodels for confusion matrix(crosstable in r)
+```{r}
+
+crime_predict<-predict(crime_model,test)
+```
+```{r}
+#install.packages("gmodels")
+library(gmodels)
+CrossTable(test$Category, crime_predict,
+             prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,
+             dnn = c('actual default', 'predicted default'))
+```
+
+#Accuracy of the Decision tree
+```{r}
+sum(crime_predict==test$Category)/nrow(test)
+```
+
+##Improving model performance
+### we can improve the model performace by using adaptive boosting in this process many decision trees are built and the trees vote on the best class for each example.
+
+
+```{r}
+library(C50)
+crime_boost<-C5.0(train[-1],train$Category,trials = 10)
+#summary(crime_boost)
+```
+
+
+
+```{r}
+crime_boost_pred10 <- predict(crime_boost, test)
+CrossTable(test$Category, crime_boost_pred10,
+             prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,
+             dnn = c('actual default', 'predicted default'))
+```
+
+
+#Accuracy of Decision tree after boosting
+```{r}
+sum(crime_boost_pred10==test$Category)/nrow(test)
+```
+#accuracy of decision tree 53.69%
+
+
+
+#Random Forest
+#used random forest function to perform analysis on train data.
+```{r}
+library(randomForest)
+library(caret)
+#Category <- droplevels(dataset2[dataset2$order=="groupA",])
+train_1<-droplevels(train)
+test_1<-droplevels(test)
+rf_crime <- randomForest(Category ~ ., data = train_1)
+rf_crime
+```
+
+```{r}
+rf_predict <- predict(rf_crime, test_1)
+CrossTable(test_1$Category, rf_predict,
+             prop.chisq = FALSE, prop.c = FALSE, prop.r = FALSE,
+             dnn = c('actual default', 'predicted default'))
+```
+
+#Accuracy of Random Forest
+```{r}
+sum(rf_predict==test_1$Category) / nrow(test_1)
+```
+#accuracy of Random forest is 54.70%
+
+##KNN function
+
+
+```{r}
+# Read jan2012-April2015.csv data file and extract the features and output
+mydata <- read.csv("jan2012-April2015.csv")
+```
+
+
+```{r}
+# Get all the unique Categories
+unique(mydata$Category)
+```
+```{r}
+# Find the Frequency of all the categories in the dataset
+table(mydata$Category)
+```
+
+```{r}
+# Catogorical classes are imbalance in this dataset, so picking out few highest frequecy classes
+# X and Y are location coordinates
+mydata_hf <- mydata[(mydata$Category == "BURGLARY" | mydata$Category == "ASSAULT" | mydata$Category =='VANDALISM'),] 
+mydata_hf_knn <- data.frame(mydata_hf$Category,mydata_hf$X,mydata_hf$Y)
+colnames(mydata_hf_knn) <- c("Category","X","Y")
+
+mydata_hf_knn
+
+
+```
+
+
+
+```{r}
+# Set Seed so that same sample can be reproduced in future also
+# Split Training and Testing Data (80:20)
+set.seed(101) 
+n = nrow(mydata_hf_knn)
+trainIndex = sample(1:n, size = round(0.8*n), replace=FALSE)
+train = mydata_hf_knn[trainIndex ,]
+test = mydata_hf_knn[-trainIndex ,]
+```
+
+```{r}
+train
+test
+```
+
+```{r}
+# Get train and test labels from the dataset
+train_labels <- mydata_hf_knn[trainIndex, 1]
+test_labels <- mydata_hf_knn[-trainIndex, 1]
+```
+
+
+```{r}
+
+# PRE-PROCESSING AND FEATURE ENGINEERING.
+# Scale Train X & Y data
+x_train_scaled = scale(train$X)
+y_train_scaled = scale(train$Y)
+# Scale dependent variables in 'test' using mean and standard deviation derived from scaling variables in 'train'.
+x_test_scaled = (test$X - attr(x_train_scaled, 'scaled:center')) / attr(x_train_scaled, 'scaled:scale')
+y_test_scaled = (test$Y - attr(y_train_scaled, 'scaled:center')) / attr(y_train_scaled, 'scaled:scale')
+```
+
+```{r}
+train_knn <- data.frame(x_train_scaled,y_train_scaled)
+test_knn <- data.frame(x_test_scaled,y_test_scaled)
+```
+
+```{r}
+# KNN doesn't do well with Missing Values, so check in train and test dataset before implementing KNN
+sum(is.na(train_knn)) 
+sum(is.na(test_knn)) 
+```
+
+```{r}
+# KNN function is from "class" library
+# Implement KNN using knn funtion
+library("class")
+mydata_test_pred <- knn(train = train_knn, test = test_knn, cl = train_labels, k = 21)
+```
+
+```{r}
+# With the help of Confusion Matrix, we can visualize the performance of a Model.
+# Croostable function is from "gmodels" library
+library(gmodels)
+CrossTable(x = test_labels, y = mydata_test_pred, prop.chisq=FALSE)
+# Accuracy = (2377+491+316)/5987 = 53.18 %
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+

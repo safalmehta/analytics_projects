@@ -1,0 +1,5 @@
+"0","sum(crime_boost_pred10==test$Category)/nrow(test)"
+"1","[1]"
+"1"," 0.5369968"
+"1","
+"

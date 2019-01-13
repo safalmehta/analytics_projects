@@ -1,0 +1,8 @@
+"0","mydata <- read.csv(""jan2012-April2015.csv"")"
+"0","#mydata"
+"0","str(mydata$Category)"
+"1"," Factor w/ 39 levels ""ARSON"",""ASSAULT"",..: "
+"1","21 24 17 24 21 17 37 17 22 2"
+"1"," ..."
+"1","
+"

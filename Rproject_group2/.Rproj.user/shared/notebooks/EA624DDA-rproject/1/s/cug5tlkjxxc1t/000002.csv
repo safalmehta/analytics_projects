@@ -1,0 +1,5 @@
+"0","set.seed(100) "
+"0","n = nrow(mydata_hf_knn)"
+"0","trainIndex = sample(1:n, size = round(0.80*n), replace=FALSE)"
+"0","train = mydata_hf_knn[trainIndex ,]"
+"0","test = mydata_hf_knn[-trainIndex ,]"

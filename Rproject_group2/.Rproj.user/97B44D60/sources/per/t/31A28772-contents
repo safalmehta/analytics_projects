@@ -1,0 +1,96 @@
+---
+title: "R Notebook"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r}
+# Read jan2012-April2015.csv data file and extract the features and output
+mydata <- read.csv("jan2012-April2015.csv")
+```
+
+```{r}
+# Get all the unique Categories
+unique(mydata$Category)
+```
+```{r}
+# Find the Frequency of all the categories in the dataset
+table(mydata$Category)
+```
+
+```{r}
+# Catogorical classes are imbalance in this dataset, so picking out few highest frequecy classes
+# X and Y are location coordinates
+mydata_hf <- mydata[(mydata$Category == "BURGLARY" | mydata$Category == "ASSAULT" | mydata$Category =='VANDALISM'),] 
+mydata_hf_knn <- data.frame(mydata_hf$Category,mydata_hf$X,mydata_hf$Y)
+colnames(mydata_hf_knn) <- c("Category","X","Y")
+
+mydata_hf_knn
+
+
+```
+
+
+
+```{r}
+# Set Seed so that same sample can be reproduced in future also
+# Split Training and Testing Data (80:20)
+set.seed(101) 
+n = nrow(mydata_hf_knn)
+trainIndex = sample(1:n, size = round(0.8*n), replace=FALSE)
+train = mydata_hf_knn[trainIndex ,]
+test = mydata_hf_knn[-trainIndex ,]
+```
+
+```{r}
+train
+test
+```
+
+```{r}
+# Get train and test labels from the dataset
+train_labels <- mydata_hf_knn[trainIndex, 1]
+test_labels <- mydata_hf_knn[-trainIndex, 1]
+```
+
+
+```{r}
+
+# PRE-PROCESSING AND FEATURE ENGINEERING.
+# Scale Train X & Y data
+x_train_scaled = scale(train$X)
+y_train_scaled = scale(train$Y)
+# Scale dependent variables in 'test' using mean and standard deviation derived from scaling variables in 'train'.
+x_test_scaled = (test$X - attr(x_train_scaled, 'scaled:center')) / attr(x_train_scaled, 'scaled:scale')
+y_test_scaled = (test$Y - attr(y_train_scaled, 'scaled:center')) / attr(y_train_scaled, 'scaled:scale')
+```
+
+```{r}
+train_knn <- data.frame(x_train_scaled,y_train_scaled)
+test_knn <- data.frame(x_test_scaled,y_test_scaled)
+```
+
+```{r}
+# KNN doesn't do well with Missing Values, so check in train and test dataset before implementing KNN
+sum(is.na(train_knn)) 
+sum(is.na(test_knn)) 
+```
+
+```{r}
+# KNN function is from "class" library
+# Implement KNN using knn funtion
+library("class")
+mydata_test_pred <- knn(train = train_knn, test = test_knn, cl = train_labels, k = 21)
+```
+
+```{r}
+# With the help of Confusion Matrix, we can visualize the performance of a Model.
+# Croostable function is from "gmodels" library
+library(gmodels)
+CrossTable(x = test_labels, y = mydata_test_pred, prop.chisq=FALSE)
+# Accuracy = (2377+491+316)/5987 = 53.18 %
+```
+

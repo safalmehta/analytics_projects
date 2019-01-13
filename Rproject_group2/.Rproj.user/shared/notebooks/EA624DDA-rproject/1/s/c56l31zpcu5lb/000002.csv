@@ -1,0 +1,5 @@
+"0","sum(rf_predict==test_1$Category) / nrow(test_1)"
+"1","[1]"
+"1"," 0.5470185"
+"1","
+"

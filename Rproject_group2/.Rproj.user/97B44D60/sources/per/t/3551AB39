@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1543715448375.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2130246738",
+    "id" : "3551AB39",
+    "lastKnownWriteTime" : 1543735762,
+    "last_content_update" : 1543872335840,
+    "path" : "~/Desktop/DATA ANALYTICS WITH R/Rproject_group2/rproject.Rmd",
+    "project_path" : "rproject.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "698,0",
+        "scrollLine" : "695",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
